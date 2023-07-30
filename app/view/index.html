@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Quản Lý Học Viên</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.3.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  <!-- MY CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary align-items-center mb-5">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-1" href="#">CycberSoft</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex align-items-center" role="search">
+            <input class="form-control my-0 me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main class="container">
+    <button class="btn btn-outline-info mb-3 fw-bold" type="button" data-bs-toggle="modal"
+      data-bs-target="#myModal">Thêm đối tượng</button>
+    <table class="table table-striped table-hover">
+      <thead >
+        <tr>
+          <th>ID</th>
+          <th>Họ Tên</th>
+          <th>Địa chỉ</th>
+          <th>Email</th>
+          <th>Đối tượng</th>
+          <th>Thuộc tính</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+
+      </tbody>
+    </table>
+  </main>
+  <footer>
+    <div id="myModal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Đối tượng</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex flex-column">
+            <input name="ID" class="form-control" type="number" placeholder="ID">
+            <input name="name" class="form-control" type="text" placeholder="Họ Tên">
+            <input name="diachi" class="form-control" type="text" placeholder="Địa chỉ">
+            <input name="email" class="form-control" type="email" placeholder="Email">
+            <select name="doituong" id="slt-class" class="form-control" onchange="classStudent()">
+              <option value="sth">Chọn đối tượng</option>
+              <option value="Student">Học viên</option>
+              <option value="Employee">Nhân viên</option>
+              <option value="Customer">Khách hàng</option>
+            </select>
+            <div style="display: none;" id="inpStudent">
+              <input name="toan" class="form-control" type="number" placeholder="Điểm toán">
+              <input name="ly" class="form-control" type="number" placeholder="Điểm lý">
+              <input name="hoa" class="form-control" type="number" placeholder="Điểm Hóa">
+            </div>
+            <div style="display: none;" id="inpEmployee">
+              <input name="dayWork" class="form-control" type="number" placeholder="Số ngày làm việc">
+              <input name="wageOnDay" class="form-control" type="number" placeholder="Lương theo ngày">
+            </div>
+            <div style="display: none;" id="inpCustomer">
+              <input name="firm" class="form-control" type="number" placeholder="Tên công ty">
+              <input name="bill" class="form-control" type="number" placeholder="Trị giá hóa đơn">
+              <input name="rate" class="form-control" type="number" placeholder="Đánh giá / 10">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="btnThemInfo" type="button" class="btn btn-outline-primary">Thêm</button>
+            <button id="btnCapNhat" type="button" class="btn btn-outline-success">Cập nhật</button>
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Thoát</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script type="module" src="../controllers/main.js"></script>
+
+</body>
+
+</html>
