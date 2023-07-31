@@ -215,6 +215,7 @@ window.editPerson = (id) => {
             const element = document.querySelectorAll('.modal-body input , .modal-body select')
             element.forEach((ele) => {
                 const { name } = ele
+                classStudent()
                 ele.value = result.data[name]
             })
         })
