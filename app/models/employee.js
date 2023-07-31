@@ -5,8 +5,6 @@ class Employee extends Person{
         this.dayWork = dayWork
         this.wageOnDay = wageOnDay 
     }
-    calWage (){
-        return this.dayWork * this.wageOnDay
-    }
+   
 }
 export {Employee}

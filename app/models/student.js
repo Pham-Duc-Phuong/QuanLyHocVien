@@ -6,8 +6,6 @@ class Student extends Person{
         this.ly = ly
         this.hoa = hoa
     }
-    DTB () {
-        return (this.toan + this.ly + this.hoa)/3
-    }
+    
 }
 export {Student}

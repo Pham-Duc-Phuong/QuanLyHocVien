@@ -6,5 +6,14 @@ class Person{
         this.email= email
         this.doituong = doituong
     }
+    mapDoiTuong(){
+        if ( this.doituong === "Student"){
+            return 'Học viên'
+        } else if (this.doituong === "Employee"){
+            return 'Nhân viên'
+        } else {
+            return 'Khách hàng'
+        }
+    }
 }
 export default Person

@@ -6,6 +6,6 @@ class Customer extends Person{
         this.bill = bill
         this.rate = rate
     }
-    
+  
 }
 export {Customer}

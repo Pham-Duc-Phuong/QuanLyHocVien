@@ -10,7 +10,10 @@
   <!-- Bootstrap CSS v5.3.1 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- MY CSS -->
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -59,13 +62,23 @@
     </nav>
   </header>
   <main class="container">
-    <button class="btn btn-outline-info mb-3 fw-bold" type="button" data-bs-toggle="modal"
-      data-bs-target="#myModal">Thêm đối tượng</button>
+    <div class="d-flex justify-content-between">
+      <button id="btnThemDoiTuong" class="btn btn-outline-info mb-3 fw-bold" type="button" data-bs-toggle="modal"
+        data-bs-target="#myModal">Thêm đối tượng</button>
+      <select id="filterDoiTuong" class="form-control mb-3 fw-bold" style ="max-width: 200px;" onchange="filterDoiTuong()">
+        <option value="tmp">Lọc đối tượng</option>
+        <option value="Student">Học viên</option>
+        <option value="Employee">Nhân viên</option>
+        <option value="Customer">Khách hàng</option>
+      </select>
+    </div>
     <table class="table table-striped table-hover">
-      <thead >
+      <thead>
         <tr>
-          <th>ID</th>
-          <th>Họ Tên</th>
+          <th><button id="idSort" class=" btn btn-outline-dark fw-bold" style="padding: 0 5px;">ID <i
+                class="fa-solid fa-arrow-down-short-wide"></i></button></th>
+          <th><button id="name" class=" btn btn-outline-dark fw-bold" style="padding: 0 5px;">Họ Tên <i
+                class="fa-solid fa-arrow-down-short-wide"></i></button></th>
           <th>Địa chỉ</th>
           <th>Email</th>
           <th>Đối tượng</th>
@@ -107,7 +120,7 @@
               <input name="wageOnDay" class="form-control" type="number" placeholder="Lương theo ngày">
             </div>
             <div style="display: none;" id="inpCustomer">
-              <input name="firm" class="form-control" type="number" placeholder="Tên công ty">
+              <input name="firm" class="form-control" type="text" placeholder="Tên công ty">
               <input name="bill" class="form-control" type="number" placeholder="Trị giá hóa đơn">
               <input name="rate" class="form-control" type="number" placeholder="Đánh giá / 10">
             </div>
@@ -122,6 +135,9 @@
     </div>
   </footer>
   <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
