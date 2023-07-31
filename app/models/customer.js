@@ -6,6 +6,14 @@ class Customer extends Person{
         this.bill = bill
         this.rate = rate
     }
-  
+    mapDoiTuong(){
+        if ( this.doituong === "Student"){
+            return 'Học viên'
+        } else if (this.doituong === "Employee"){
+            return 'Nhân viên'
+        } else {
+            return 'Khách hàng'
+        }
+    }
 }
 export {Customer}

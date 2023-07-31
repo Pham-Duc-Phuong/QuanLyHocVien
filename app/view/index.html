@@ -65,7 +65,8 @@
     <div class="d-flex justify-content-between">
       <button id="btnThemDoiTuong" class="btn btn-outline-info mb-3 fw-bold" type="button" data-bs-toggle="modal"
         data-bs-target="#myModal">Thêm đối tượng</button>
-      <select id="filterDoiTuong" class="form-control mb-3 fw-bold" style ="max-width: 200px;" onchange="filterDoiTuong()">
+      <select id="filterDoiTuong" class="form-control mb-3 fw-bold" style="max-width: 200px;"
+        onchange="filterDoiTuong()">
         <option value="tmp">Lọc đối tượng</option>
         <option value="Student">Học viên</option>
         <option value="Employee">Nhân viên</option>
@@ -100,10 +101,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body d-flex flex-column">
-            <input name="ID" class="form-control" type="number" placeholder="ID">
-            <input name="name" class="form-control" type="text" placeholder="Họ Tên">
-            <input name="diachi" class="form-control" type="text" placeholder="Địa chỉ">
-            <input name="email" class="form-control" type="email" placeholder="Email">
+            <input id="ID" name="ID" class="form-control" type="number" placeholder="ID">
+            <input id="name" name="name" class="form-control" type="text" placeholder="Họ Tên">
+            <input id="diachi" name="diachi" class="form-control" type="text" placeholder="Địa chỉ">
+            <input id="email" name="email" class="form-control" type="email" placeholder="Email">
             <select name="doituong" id="slt-class" class="form-control" onchange="classStudent()">
               <option value="sth">Chọn đối tượng</option>
               <option value="Student">Học viên</option>
@@ -111,24 +112,24 @@
               <option value="Customer">Khách hàng</option>
             </select>
             <div style="display: none;" id="inpStudent">
-              <input name="toan" class="form-control" type="number" placeholder="Điểm toán">
-              <input name="ly" class="form-control" type="number" placeholder="Điểm lý">
-              <input name="hoa" class="form-control" type="number" placeholder="Điểm Hóa">
+              <input id="toan" name="toan" class="form-control" type="number" placeholder="Điểm toán">
+              <input id="ly" name="ly" class="form-control" type="number" placeholder="Điểm lý">
+              <input id="hoa" name="hoa" class="form-control" type="number" placeholder="Điểm Hóa">
             </div>
             <div style="display: none;" id="inpEmployee">
-              <input name="dayWork" class="form-control" type="number" placeholder="Số ngày làm việc">
-              <input name="wageOnDay" class="form-control" type="number" placeholder="Lương theo ngày">
+              <input id="dayWork" name="dayWork" class="form-control" type="number" placeholder="Số ngày làm việc">
+              <input id="wageOnDay" name="wageOnDay" class="form-control" type="number" placeholder="Lương theo ngày">
             </div>
             <div style="display: none;" id="inpCustomer">
-              <input name="firm" class="form-control" type="text" placeholder="Tên công ty">
-              <input name="bill" class="form-control" type="number" placeholder="Trị giá hóa đơn">
-              <input name="rate" class="form-control" type="number" placeholder="Đánh giá / 10">
+              <input id="firm" name="firm" class="form-control" type="text" placeholder="Tên công ty">
+              <input id="bill" name="bill" class="form-control" type="number" placeholder="Trị giá hóa đơn">
+              <input id="rate" name="rate" class="form-control" type="number" placeholder="Đánh giá / 10">
             </div>
           </div>
           <div class="modal-footer">
             <button id="btnThemInfo" type="button" class="btn btn-outline-primary">Thêm</button>
             <button id="btnCapNhat" type="button" class="btn btn-outline-success">Cập nhật</button>
-            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Thoát</button>
+            <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">Thoát</button>
           </div>
         </div>
       </div>
@@ -141,6 +142,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script type="module" src="../controllers/main.js"></script>
 
 </body>

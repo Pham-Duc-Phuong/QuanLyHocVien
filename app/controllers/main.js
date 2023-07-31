@@ -3,12 +3,9 @@ import List from "../models/list.js";
 import { Student } from "../models/student.js";
 import { Customer } from "../models/customer.js";
 import { Employee } from "../models/employee.js";
+import { DOMAIN } from "../constants/API.js";
 
 const getElement = (selector) => document.querySelector(selector)
-
-
-let danhsach = new List
-
 
 window.classStudent = () => {
     let sltClass = getElement('#slt-class').value
@@ -33,6 +30,22 @@ window.classStudent = () => {
         inpEmployee.style.display = 'none'
     }
 }
+const getInfoAPI = () => {
+    const promise = axios({
+        url: DOMAIN,
+        method: 'GET',
+    })
+    promise
+        .then((result) => {
+            renderPerson(result.data)
+        })
+        .catch((err) => {
+            console.log('err', err)
+        })
+}
+
+getInfoAPI()
+
 const layThongTin = () => {
     let info = {}
     const element = document.querySelectorAll('.modal-body input , .modal-body select')
@@ -51,19 +64,7 @@ const layThongTin = () => {
     }
 }
 
-getElement('#btnThemInfo').onclick = () => {
-    const info = layThongTin()
-    danhsach.addPerson(info)
-    renderPerson()
-    setLocal()
-}
-
-getElement('#btnThemDoiTuong').onclick = () => {
-    getElement('#btnCapNhat').style.display = "none"
-    getElement('#btnThemInfo').style.display = "inline-block"
-}
-
-const renderPerson = (arrList = danhsach.list) => {
+const renderPerson = (arrList) => {
     let contentHTML = ''
     arrList.forEach((a) => {
         if (a.doituong === "Student") {
@@ -112,8 +113,8 @@ const renderPerson = (arrList = danhsach.list) => {
                     Tên công ty: ${a.firm} <br> Trị giá hóa đơn: ${a.bill} <br> Đánh giá: ${a.rate}
                 </td>
                 <td>
-                    <button class="btn btn-outline-info fw-bolder" data-toggle="modal" data-target="#exampleModal" type="button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="editPerson(${a.ID})">Edit</button>
-                    <button class="btn btn-outline-danger fw-bolder" onclick="deleteID(${a.ID})">Detele</button>
+                    <button class="btn btn-outline-info fw-bolder" data-toggle="modal" data-target="#exampleModal" type="button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="editPerson(${a.id})">Edit</button>
+                    <button class="btn btn-outline-danger fw-bolder" onclick="deleteID(${a.id})">Detele</button>
                 </td>
             </tr>
         `
@@ -121,62 +122,135 @@ const renderPerson = (arrList = danhsach.list) => {
     })
     getElement('#tbody').innerHTML = contentHTML
 }
-const setLocal = () => {
-    const tmp = JSON.stringify(danhsach.list)
-    localStorage.setItem('tmp', tmp)
+
+getElement('#btnThemInfo').onclick = () => {
+    const info = layThongTin()
+    const promise = axios({
+        url: DOMAIN,
+        method: 'POST',
+        data: info
+    })
+    promise
+        .then(() => {
+            getInfoAPI()
+        }).catch((err) => {
+            console.log('err', err)
+        })
 }
-const getDataLocal = () => {
-    const data = localStorage.getItem('tmp')
-    const parsedata = JSON.parse(data)
-    let arr = [];
-    for (let i = 0; i < parsedata.length; i++) {
-        let tmp = parsedata[i]
-        if (tmp.doituong === 'Student') {
-            var info = new Student(tmp.ID, tmp.name, tmp.diachi, tmp.email, tmp.doituong, tmp.toan, tmp.ly, tmp.hoa)
-        } else if (tmp.doituong === 'Employee') {
-            var info = new Employee(tmp.ID, tmp.name, tmp.diachi, tmp.email, tmp.doituong, tmp.dayWork, tmp.wageOnDay)
-        } else if (tmp.doituong === 'Customer') {
-            var info = new Customer(tmp.ID, tmp.name, tmp.diachi, tmp.email, tmp.doituong, tmp.firm, tmp.bill, tmp.rate)
-        }
-        arr.push(info)
-    }
-    danhsach.list = arr
-    renderPerson()
+
+getElement('#btnThemDoiTuong').onclick = () => {
+    getElement('#btnCapNhat').style.display = "none"
+    getElement('#btnThemInfo').style.display = "inline-block"
 }
-getDataLocal()
 
 
-window.deleteID = (A) => {
-    console.log('A', A)
-    danhsach.deletePerson(A)
-    renderPerson()
-    setLocal()
+// **** Không thể lấy lại được thông tin từ LocalStogae ****
+
+// const setLocal = () => {
+//     const tmp = JSON.stringify(danhsach.list)
+//     localStorage.setItem('tmp', tmp)
+// }
+// const getDataLocal = () => {
+//     const data = localStorage.getItem('tmp')
+//     const parsedata = JSON.parse(data)
+//     let arr = [];
+//     for (let i = 0; i < parsedata.length; i++) {
+//         let tmp = parsedata[i]
+//         if (tmp.doituong === 'Student') {
+//             var info = new Student(tmp.ID, tmp.name, tmp.diachi, tmp.email, tmp.doituong, tmp.toan, tmp.ly, tmp.hoa)
+//         } else if (tmp.doituong === 'Employee') {
+//             var info = new Employee(tmp.ID, tmp.name, tmp.diachi, tmp.email, tmp.doituong, tmp.dayWork, tmp.wageOnDay)
+//         } else if (tmp.doituong === 'Customer') {
+//             var info = new Customer(tmp.ID, tmp.name, tmp.diachi, tmp.email, tmp.doituong, tmp.firm, tmp.bill, tmp.rate)
+//         }
+//         arr.push(info)
+//     }
+//     danhsach.list = arr
+//     renderPerson()
+// }
+// getDataLocal()
+
+
+window.deleteID = (id) => {
+    console.log('id', id)
+    const promise = axios({
+        url: `${DOMAIN}/${id}`,
+        method: 'DELETE',
+    })
+    promise
+        .then((result) => {
+            getInfoAPI()
+        })
+        .catch((err) => {
+            console.log('err', err)
+        })
 }
-window.editPerson = (B) => {
+window.editPerson = (id) => {
+    console.log('id', id)
     getElement('#btnCapNhat').style.display = "inline-block"
     getElement('#btnThemInfo').style.display = "none"
-    const element = document.querySelectorAll('.modal-body input , .modal-body select')
-    console.log(danhsach.list);
-    //     element.forEach((a) => {
-    //         const {name} =a
-    //         a.value = danhsach.list[]
-    // })
+    document.querySelector('#btnCapNhat').setAttribute('data-id', id)
+    const promise = axios({
+        url: `${DOMAIN}/${id}`,
+        method: 'GET',
+    })
+    promise
+        .then((result) => {
+            const element = document.querySelectorAll('.modal-body input , .modal-body select')
+            element.forEach((a) => {
+                const { name } = a
+                a.value = result.data[name]
+            })
+        })
+        .catch((err) => {
+            console.log('err', err)
+        })
+
+}
+getElement('#btnCapNhat').onclick = () => {
+    const info = getInfoAPI()
+    const id = document.querySelector('#btnCapNhat').getAttribute('data-id')
+    const promise = axios({
+        url: `${DOMAIN}/${id}`,
+        method: 'PUT',
+        data: {
+            ...info,
+            doituong: info.mapDoiTuong()
+        }
+    })
+    promise
+        .then((result) => {
+            getInfoAPI()
+            document.querySelector('#btnCapNhat').toggleAttribute('data-id', false)
+        })
+        .catch((err) => {
+            console.log('err', err)
+        })
 }
 getElement('#name').onclick = () => {
-    danhsach.list.sort((a, b) => {
-        a = a.name.toLowerCase()
-        b = b.name.toLowerCase()
-        if (a < b) {
-            return -1
-        }
-        if (a > b) {
-            return 1
-        }
-        return 0
+    const promise = axios({
+        url: DOMAIN,
+        method: 'GET',
     })
-    console.log('danhsach', danhsach.list)
-    renderPerson()
-    setLocal()
+    promise
+        .then((result) => { 
+            console.log('result', result.data)
+            result.data.sort((a, b) => {
+                a = a.name.toLowerCase()
+                b = b.name.toLowerCase()
+                if (a < b) {
+                    return -1
+                }
+                if (a > b) {
+                    return 1
+                }
+                return 0
+            })
+            
+        })
+        .catch((err) => {
+            console.log('err', err)
+        })
 }
 getElement('#idSort').onclick = () => {
     danhsach.list.sort((a, b) => {
@@ -195,13 +269,13 @@ getElement('#idSort').onclick = () => {
     setLocal()
 }
 window.filterDoiTuong = () => {
-    const filterStudent = danhsach.list.filter((filterList)=>{
+    const filterStudent = danhsach.list.filter((filterList) => {
         let filterDoiTuong = getElement('#filterDoiTuong').value
-        if (filterDoiTuong === "Student"){
-           return filterList.doituong === "Student"
-        } else if (filterDoiTuong === "Employee"){
+        if (filterDoiTuong === "Student") {
+            return filterList.doituong === "Student"
+        } else if (filterDoiTuong === "Employee") {
             return filterList.doituong === "Employee"
-        } else if (filterDoiTuong === "Customer"){
+        } else if (filterDoiTuong === "Customer") {
             return filterList.doituong === "Customer"
         } else {
             return filterList

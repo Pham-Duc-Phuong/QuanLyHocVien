@@ -6,6 +6,14 @@ class Student extends Person{
         this.ly = ly
         this.hoa = hoa
     }
-    
+    mapDoiTuong(){
+        if ( this.doituong === "Student"){
+            return 'Học viên'
+        } else if (this.doituong === "Employee"){
+            return 'Nhân viên'
+        } else {
+            return 'Khách hàng'
+        }
+    }
 }
 export {Student}
