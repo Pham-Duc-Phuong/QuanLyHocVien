@@ -67,10 +67,26 @@ const layThongTin = () => {
 const renderPerson = (arrList) => {
     let contentHTML = ''
     arrList.forEach((a) => {
-        if (a.doituong === "Student") {
+        // contentHTML += `
+        //     <tr>
+        //         <td>${a.psID}</td>
+        //         <td>${a.name}</td>
+        //         <td>${a.diachi}</td>
+        //         <td>${a.email}</td>
+        //         <td name="doituong">${a.doituong}</td>
+        //         <td>
+        //            ${a.thuoctinh}
+        //         </td>
+        //         <td>
+        //             <button class="btn btn-outline-info fw-bolder" data-toggle="modal" data-target="#exampleModal" type="button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="editPerson(${a.id})">Edit</button>
+        //             <button class="btn btn-outline-danger fw-bolder" onclick="deleteID(${a.id})">Detele</button>
+        //         </td>
+        //     </tr>
+        // `
+     if (a.doituong === "Student") {
             contentHTML += `
             <tr>
-                <td>${a.ID}</td>
+                <td>${a.psID}</td>
                 <td>${a.name}</td>
                 <td>${a.diachi}</td>
                 <td>${a.email}</td>
@@ -79,15 +95,15 @@ const renderPerson = (arrList) => {
                     Toán: ${a.toan} <br> Lý: ${a.ly} <br> Hóa: ${a.hoa} <br> ĐTB: ${Number((a.toan / 3 + a.ly / 3 + a.hoa / 3)).toLocaleString()}
                 </td>
                 <td>
-                    <button class="btn btn-outline-info fw-bolder" data-toggle="modal" data-target="#exampleModal" type="button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="editPerson(${a.ID})">Edit</button>
-                    <button class="btn btn-outline-danger fw-bolder" onclick="deleteID(${a.ID})">Detele</button>
+                    <button class="btn btn-outline-info fw-bolder" data-toggle="modal" data-target="#exampleModal" type="button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="editPerson(${a.id})">Edit</button>
+                    <button class="btn btn-outline-danger fw-bolder" onclick="deleteID(${a.id})">Detele</button>
                 </td>
             </tr>
         `
-        } else if (a.doituong === "Employee") {
+     } else if (a.doituong === "Employee") {
             contentHTML += `
             <tr>
-                <td>${a.ID}</td>
+                <td>${a.psID}</td>
                 <td>${a.name}</td>
                 <td>${a.diachi}</td>
                 <td>${a.email}</td>
@@ -96,15 +112,15 @@ const renderPerson = (arrList) => {
                     Số ngày làm việc: ${a.dayWork} <br> Lương theo ngày: ${a.wageOnDay} <br> Tổng lương: ${Number(a.dayWork * a.wageOnDay).toLocaleString()}
                 </td>
                 <td>
-                    <button class="btn btn-outline-info fw-bolder" data-toggle="modal" data-target="#exampleModal" type="button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="editPerson(${a.ID})">Edit</button>
-                    <button class="btn btn-outline-danger fw-bolder" onclick="deleteID(${a.ID})">Detele</button>
+                    <button class="btn btn-outline-info fw-bolder" data-toggle="modal" data-target="#exampleModal" type="button" data-bs-toggle="modal" data-bs-target="#myModal" onclick="editPerson(${a.id})">Edit</button>
+                    <button class="btn btn-outline-danger fw-bolder" onclick="deleteID(${a.id})">Detele</button>
                 </td>
             </tr>
         `
-        } else if (a.doituong === "Customer") {
+     } else if (a.doituong === "Customer") {
             contentHTML += `
             <tr>
-                <td>${a.ID}</td>
+                <td>${a.psID}</td>
                 <td>${a.name}</td>
                 <td>${a.diachi}</td>
                 <td>${a.email}</td>
@@ -118,7 +134,7 @@ const renderPerson = (arrList) => {
                 </td>
             </tr>
         `
-        }
+     }
     })
     getElement('#tbody').innerHTML = contentHTML
 }
@@ -197,9 +213,9 @@ window.editPerson = (id) => {
     promise
         .then((result) => {
             const element = document.querySelectorAll('.modal-body input , .modal-body select')
-            element.forEach((a) => {
-                const { name } = a
-                a.value = result.data[name]
+            element.forEach((ele) => {
+                const { name } = ele
+                ele.value = result.data[name]
             })
         })
         .catch((err) => {
@@ -208,15 +224,12 @@ window.editPerson = (id) => {
 
 }
 getElement('#btnCapNhat').onclick = () => {
-    const info = getInfoAPI()
+    const info = layThongTin()
     const id = document.querySelector('#btnCapNhat').getAttribute('data-id')
     const promise = axios({
         url: `${DOMAIN}/${id}`,
         method: 'PUT',
-        data: {
-            ...info,
-            doituong: info.mapDoiTuong()
-        }
+        data: info
     })
     promise
         .then((result) => {
@@ -227,6 +240,7 @@ getElement('#btnCapNhat').onclick = () => {
             console.log('err', err)
         })
 }
+
 getElement('#name').onclick = () => {
     const promise = axios({
         url: DOMAIN,
@@ -252,34 +266,34 @@ getElement('#name').onclick = () => {
             console.log('err', err)
         })
 }
-getElement('#idSort').onclick = () => {
-    danhsach.list.sort((a, b) => {
-        a = a.ID.toLowerCase()
-        b = b.ID.toLowerCase()
-        if (a < b) {
-            return -1
-        }
-        if (a > b) {
-            return 1
-        }
-        return 0
-    })
-    console.log('danhsach', danhsach.list)
-    renderPerson()
-    setLocal()
-}
-window.filterDoiTuong = () => {
-    const filterStudent = danhsach.list.filter((filterList) => {
-        let filterDoiTuong = getElement('#filterDoiTuong').value
-        if (filterDoiTuong === "Student") {
-            return filterList.doituong === "Student"
-        } else if (filterDoiTuong === "Employee") {
-            return filterList.doituong === "Employee"
-        } else if (filterDoiTuong === "Customer") {
-            return filterList.doituong === "Customer"
-        } else {
-            return filterList
-        }
-    })
-    renderPerson(filterStudent)
-}
+// getElement('#idSort').onclick = () => {
+//     danhsach.list.sort((a, b) => {
+//         a = a.ID.toLowerCase()
+//         b = b.ID.toLowerCase()
+//         if (a < b) {
+//             return -1
+//         }
+//         if (a > b) {
+//             return 1
+//         }
+//         return 0
+//     })
+//     console.log('danhsach', danhsach.list)
+//     renderPerson()
+//     setLocal()
+// }
+// window.filterDoiTuong = () => {
+//     const filterStudent = danhsach.list.filter((filterList) => {
+//         let filterDoiTuong = getElement('#filterDoiTuong').value
+//         if (filterDoiTuong === "Student") {
+//             return filterList.doituong === "Student"
+//         } else if (filterDoiTuong === "Employee") {
+//             return filterList.doituong === "Employee"
+//         } else if (filterDoiTuong === "Customer") {
+//             return filterList.doituong === "Customer"
+//         } else {
+//             return filterList
+//         }
+//     })
+//     renderPerson(filterStudent)
+// }

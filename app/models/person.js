@@ -1,6 +1,6 @@
 class Person{
-    constructor(ID, name, diachi, email, doituong){
-        this.ID= ID
+    constructor(psID, name, diachi, email, doituong){
+        this.psID= psID
         this.name= name
         this.diachi= diachi
         this.email= email
