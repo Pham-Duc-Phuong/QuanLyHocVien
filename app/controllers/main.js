@@ -248,7 +248,6 @@ getElement('#name').onclick = () => {
     })
     promise
         .then((result) => { 
-            console.log('result', result.data)
             result.data.sort((a, b) => {
                 a = a.name.toLowerCase()
                 b = b.name.toLowerCase()
@@ -260,40 +259,61 @@ getElement('#name').onclick = () => {
                 }
                 return 0
             })
-            
+            renderPerson(result.data)
         })
         .catch((err) => {
             console.log('err', err)
         })
 }
-// getElement('#idSort').onclick = () => {
-//     danhsach.list.sort((a, b) => {
-//         a = a.ID.toLowerCase()
-//         b = b.ID.toLowerCase()
-//         if (a < b) {
-//             return -1
-//         }
-//         if (a > b) {
-//             return 1
-//         }
-//         return 0
-//     })
-//     console.log('danhsach', danhsach.list)
-//     renderPerson()
-//     setLocal()
-// }
-// window.filterDoiTuong = () => {
-//     const filterStudent = danhsach.list.filter((filterList) => {
-//         let filterDoiTuong = getElement('#filterDoiTuong').value
-//         if (filterDoiTuong === "Student") {
-//             return filterList.doituong === "Student"
-//         } else if (filterDoiTuong === "Employee") {
-//             return filterList.doituong === "Employee"
-//         } else if (filterDoiTuong === "Customer") {
-//             return filterList.doituong === "Customer"
-//         } else {
-//             return filterList
-//         }
-//     })
-//     renderPerson(filterStudent)
-// }
+
+getElement('#idSort').onclick = () => {
+    const promise = axios({
+        url: DOMAIN,
+        method: 'GET',
+    })
+    promise
+        .then((result) => { 
+            result.data.sort((a, b) => {
+                a = a.psID.toLowerCase()
+                b = b.psID.toLowerCase()
+                if (a < b) {
+                    return -1
+                }
+                if (a > b) {
+                    return 1
+                }
+                return 0
+            })
+            renderPerson(result.data)
+        })
+        .catch((err) => {
+            console.log('err', err)
+        })
+}
+
+window.filterDoiTuong = () => {
+    const promise = axios({
+        url: DOMAIN,
+        method: 'GET',
+    })
+    promise
+    .then((result)=>{
+        const filterStudent = result.data.filter((filterList) => {
+            let filterDoiTuong = getElement('#filterDoiTuong').value
+            if (filterDoiTuong === "Student") {
+                return filterList.doituong === "Student"
+            } else if (filterDoiTuong === "Employee") {
+                return filterList.doituong === "Employee"
+            } else if (filterDoiTuong === "Customer") {
+                return filterList.doituong === "Customer"
+            } else {
+                return filterList
+            }
+        })
+        renderPerson(filterStudent)
+
+    })
+    .catch((err) => {
+        console.log('err', err)
+    })
+}
